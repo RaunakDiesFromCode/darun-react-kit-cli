@@ -69,6 +69,20 @@ async function main() {
             process.exit(1);
         }
 
+        // Step 1.5: Ask for user name
+        let userName = "Developer";
+        if (!options.yes) {
+            const { name } = await inquirer.prompt([
+                {
+                    type: "input",
+                    name: "name",
+                    message: "What’s your name?",
+                    default: "Developer",
+                },
+            ]);
+            userName = name;
+        }
+
         // Step 2: Determine branch (template type)
         let branch = "main"; // default JS
         if (options.ts) {
@@ -201,6 +215,19 @@ async function main() {
             } catch (err) {
                 gitSpinner.fail("Git init failed.");
             }
+        }
+
+        // Step 11: Personalize Home.jsx
+        const homePath = path.join(targetDir, "src/pages/Home.jsx");
+        if (fs.existsSync(homePath)) {
+            let content = fs.readFileSync(homePath, "utf-8");
+            // Add greeting inside <div> (after Home Page heading)
+            content = content.replace(
+                /<h1[^>]*>Home Page<\/h1>/,
+                `<h1 className="text-2xl font-bold">Home Page</h1>\n            <p className="mt-2">Hi ${userName} 👋</p>`
+            );
+            fs.writeFileSync(homePath, content, "utf-8");
+            log.success(`Personalized Home.jsx with greeting for ${userName}`);
         }
 
         // Done!
