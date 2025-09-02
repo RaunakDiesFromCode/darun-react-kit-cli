@@ -1,15 +1,28 @@
 {
-  "name": "create-darun-react",
-  "version": "1.0.1",
-  "description": "Scaffold React projects with Vite, Tailwind, Router & Axios",
-  "bin": {
-    "create-darun-react": "./index.js"
-  },
-  "type": "module",
-  "files": [
-    "index.js"
-  ],
-  "keywords": ["react", "vite", "cli", "starter", "tailwind"],
-  "author": "Raunak Manna",
-  "license": "MIT"
+    "name": "create-darun-react",
+    "version": "1.0.1",
+    "description": "Scaffold React projects with Vite, Tailwind, Router & Axios",
+    "bin": {
+        "create-darun-react": "./index.js"
+    },
+    "type": "module",
+    "files": [
+        "index.js"
+    ],
+    "dependencies": {
+        "chalk": "^5.3.0",
+        "commander": "^12.0.0",
+        "figlet": "^1.7.0",
+        "inquirer": "^9.2.7",
+        "ora": "^7.0.1"
+    },
+    "keywords": [
+        "react",
+        "vite",
+        "cli",
+        "starter",
+        "tailwind"
+    ],
+    "author": "Raunak Manna",
+    "license": "MIT"
 }
