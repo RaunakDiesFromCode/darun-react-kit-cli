@@ -1,6 +1,6 @@
 {
     "name": "create-darun-react",
-    "version": "1.0.4",
+    "version": "1.0.5",
     "description": "Scaffold React projects with Vite, Tailwind, Router & Axios",
     "bin": {
         "create-darun-react": "./index.js"
