@@ -18,6 +18,7 @@ program
     .argument("[projectName]", "name of the project")
     .option("--ts", "Use TypeScript template")
     .option("--no-git", "Skip git initialization")
+    .option("--shadcn", "Install shadcn/ui after setup")
     .option("-y, --yes", "Skip all prompts and use defaults")
     .parse(process.argv);
 
@@ -100,6 +101,20 @@ async function main() {
             packageManager = pm;
         }
 
+        // Step 3.5: Ask about shadcn
+        let installShadcn = options.shadcn || false;
+        if (!options.yes && !options.shadcn) {
+            const { shadcnChoice } = await inquirer.prompt([
+                {
+                    type: "confirm",
+                    name: "shadcnChoice",
+                    message: "Would you like to install shadcn/ui components?",
+                    default: false,
+                },
+            ]);
+            installShadcn = shadcnChoice;
+        }
+
         const repoUrl =
             "https://github.com/RaunakDiesFromCode/darun-react-kit.git";
 
@@ -157,7 +172,22 @@ async function main() {
             process.exit(1);
         }
 
-        // Step 9: Git init
+        // Step 9: Install shadcn/ui
+        if (installShadcn) {
+            const shadcnSpinner = ora("✨ Installing shadcn/ui...").start();
+            try {
+                execSync("npx shadcn-ui@latest init -y", {
+                    cwd: targetDir,
+                    stdio: "ignore",
+                });
+                shadcnSpinner.succeed("shadcn/ui installed!");
+            } catch (err) {
+                shadcnSpinner.fail("Failed to install shadcn/ui.");
+                log.error("Make sure Node >=18 and npx are available.");
+            }
+        }
+
+        // Step 10: Git init
         if (options.git) {
             const gitSpinner = ora("⚡ Initializing git repo...").start();
             try {
